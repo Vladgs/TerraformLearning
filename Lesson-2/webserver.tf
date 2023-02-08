@@ -15,14 +15,14 @@ resource "aws_instance" "MyWebServer" {
   ami = "ami-06c39ed6b42908a36" # Amazon Linux AMI
   instance_type = "t2.micro"
   tags = {
-    Name = "My_Цуи_Server"
+    Name = "My_Web_Server"
     Owner = "Vlad"
     Project = "Terraform_Lesson_2"
   }
 
-  vpc_security_group_ids = [aws_security_group.MyWebServer.id]
+vpc_security_group_ids = [aws_security_group.MyWebServer.id]
 
-  user_data = <<EOF
+user_data = <<EOF
 #!/bin/bash
 yum -y update
 yum -y install httpd
