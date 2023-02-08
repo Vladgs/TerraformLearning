@@ -5,13 +5,33 @@
 #
 # Made by Vlad
 
-provider "AWS" {
-  region = "eu-central-1"
+provider "aws" {
+
+region = "eu-central-1"
+  
 }
 
 resource "aws_instance" "MyWebServer" {
   ami = "ami-06c39ed6b42908a36" # Amazon Linux AMI
   instance_type = "t2.micro"
+  tags = {
+    Name = "My_Цуи_Server"
+    Owner = "Vlad"
+    Project = "Terraform_Lesson_2"
+  }
+
+  vpc_security_group_ids = [aws_security_group.MyWebServer.id]
+
+  user_data = <<EOF
+#!/bin/bash
+yum -y update
+yum -y install httpd
+myip=´curl http://169.254.169.254/latest/meta-data/local-ipv4´
+echo "<h2>WebServer with IP: $myip</h2><br> Build by Terraform!" > /var/www/html/index.html
+sudo service httpd start
+chkconfig https on 
+  EOF
+  
 }
 
 resource "aws_security_group" "MyWebServer" {
@@ -25,15 +45,21 @@ resource "aws_security_group" "MyWebServer" {
     cidr_blocks      = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port        = 443
+    to_port          = 443
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port        = 0
     to_port          = 0
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
   }
 
   tags = {
-    Name = "allow_tls"
+    Name = "SG_for_WebServer_Lesson_2"
   }
 }
