@@ -22,11 +22,7 @@ resource "aws_instance" "MyWebServer" {
 
 vpc_security_group_ids = [aws_security_group.MyWebServer.id]
 
-user_data = templatefile("user_data.sh", {
-  f_name = "Vlad",
-  l_name = "Test",
-  names = ["Michael", "Peter", "John", "Steven", "Donald", "Maria"]
-})
+user_data = templatefile("user_data.sh", {f_name = "Vlad",l_name = "Test",names = ["Michael", "Peter", "John", "Steven", "Donald", "Maria"]})
 
 }
 

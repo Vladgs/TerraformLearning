@@ -1,3 +1,8 @@
+ADV Git:
+
+https://github.com/adv4000/terraform-lessons
+
+
 Delete files from commit:
 
 git filter-branch --tree-filter 'rm -rf Lesson-1/.terraform/providers/registry.terraform.io/hashicorp/aws/4.53.0/darwin_arm64/terraform-provider-aws_v4.53.0_x5' HEAD
