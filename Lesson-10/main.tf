@@ -1,5 +1,5 @@
 provider "aws" {
-    region = "eu-central-1"
+  region = "eu-central-1"
 }
 
 data "aws_ami" "latest_ubuntu" {
@@ -12,21 +12,21 @@ data "aws_ami" "latest_ubuntu" {
 }
 
 data "aws_ami" "latest_amazon_linux" {
-  owners = [ "amazon" ]
+  owners      = ["amazon"]
   most_recent = true
   filter {
-    name = "name"
+    name   = "name"
     values = ["amzn2-ami-kernel-5.10-hvm-*"]
   }
 }
 
 data "aws_ami" "latest_windows_2022" {
-    owners = [ "amazon" ]
-    most_recent = true
-    filter {
-      name = "name"
-      values = ["Windows_Server-2022-English-Full-Base-*"]
-    }
+  owners      = ["amazon"]
+  most_recent = true
+  filter {
+    name   = "name"
+    values = ["Windows_Server-2022-English-Full-Base-*"]
+  }
 }
 
 output "latest_windows_2022_id" {

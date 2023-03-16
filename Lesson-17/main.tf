@@ -7,75 +7,75 @@
 #----------------------------------------------------------
 
 provider "aws" {
-    region = "eu-central-1"
+  region = "eu-central-1"
 }
 
 data "aws_ami" "latest_amazon_linux" {
-  owners = [ "amazon" ]
+  owners      = ["amazon"]
   most_recent = true
   filter {
-    name = "name"
+    name   = "name"
     values = ["amzn2-ami-kernel-5.10-hvm-*"]
   }
 }
 
 variable "env" {
-    default = "dev"
+  default = "dev"
 }
 
 variable "prod_owner" {
-    default = "Vlad"
+  default = "Vlad"
 }
 
 variable "noprod_owner" {
-    default = "Dydya Vasya"
+  default = "Dydya Vasya"
 }
 
 variable "ec2_size" {
-    default = {
-        "prod" = "t3.medium"
-        "dev" = "t3.micro"
-        "staging" = "t3.small"
-    }
-  
+  default = {
+    "prod"    = "t3.medium"
+    "dev"     = "t3.micro"
+    "staging" = "t3.small"
+  }
+
 }
 
 variable "allow_port_list" {
-    default = {
-        "prod" = ["80", "443"]
-        "dev" = ["80", "443", "8080", "22"]
-    }
-  
+  default = {
+    "prod" = ["80", "443"]
+    "dev"  = ["80", "443", "8080", "22"]
+  }
+
 }
 
 resource "aws_instance" "my_server" {
-    ami = data.aws_ami.latest_amazon_linux.id
-    //instance_type = var.env == "prod" ? "t2.large" : "t2.micro"
-    instance_type = var.env == "prod" ? var.ec2_size["prod"] : "t2.micro"
-    tags = {
-        Name = "${var.env} - server"
-        Owner = var.env == "prod" ? var.prod_owner : var.noprod_owner
+  ami = data.aws_ami.latest_amazon_linux.id
+  //instance_type = var.env == "prod" ? "t2.large" : "t2.micro"
+  instance_type = var.env == "prod" ? var.ec2_size["prod"] : "t2.micro"
+  tags = {
+    Name  = "${var.env} - server"
+    Owner = var.env == "prod" ? var.prod_owner : var.noprod_owner
 
-    }
+  }
 }
 
 resource "aws_instance" "my_server2" {
-    ami = data.aws_ami.latest_amazon_linux.id
-    instance_type = lookup(var.ec2_size, var.env) 
-    tags = {
-        Name = "${var.env} - server"
-        Owner = var.env == "prod" ? var.prod_owner : var.noprod_owner
+  ami           = data.aws_ami.latest_amazon_linux.id
+  instance_type = lookup(var.ec2_size, var.env)
+  tags = {
+    Name  = "${var.env} - server"
+    Owner = var.env == "prod" ? var.prod_owner : var.noprod_owner
 
-    }
+  }
 }
 
 resource "aws_instance" "my_dev_bastion" {
-    count = var.env == "dev" ? 1 : 0
-    ami = data.aws_ami.latest_amazon_linux.id
-    instance_type = "t2.micro"
-    tags = {
-        Name = "Bastion server for Dev"
-    }
+  count         = var.env == "dev" ? 1 : 0
+  ami           = data.aws_ami.latest_amazon_linux.id
+  instance_type = "t2.micro"
+  tags = {
+    Name = "Bastion server for Dev"
+  }
 }
 
 resource "aws_security_group" "Dynamic_SG" {
@@ -93,10 +93,10 @@ resource "aws_security_group" "Dynamic_SG" {
   }
 
   egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {

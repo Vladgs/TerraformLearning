@@ -1,11 +1,11 @@
 variable "enviroment" {
-    default = "DEV"
+  default = "DEV"
 }
 
 variable "project_name" {
-    default = "ANDESA"
+  default = "ANDESA"
 }
 
 variable "owner" {
-    default = "Vlad"
+  default = "Vlad"
 }

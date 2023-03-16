@@ -7,49 +7,49 @@
 
 provider "aws" {
 
-region = "eu-central-1"
-  
+  region = "eu-central-1"
+
 }
 
 resource "aws_instance" "MyWebServer" {
-  ami = "ami-06c39ed6b42908a36" # Amazon Linux AMI
+  ami           = "ami-06c39ed6b42908a36" # Amazon Linux AMI
   instance_type = "t2.micro"
   tags = {
-    Name = "My_Web_Server"
-    Owner = "Vlad"
+    Name    = "My_Web_Server"
+    Owner   = "Vlad"
     Project = "Terraform_Lesson_2"
   }
 
-vpc_security_group_ids = [aws_security_group.MyWebServer.id]
+  vpc_security_group_ids = [aws_security_group.MyWebServer.id]
 
-user_data = file("user_data.sh")
+  user_data = file("user_data.sh")
 
 }
 
 resource "aws_security_group" "MyWebServer" {
   name        = "WebServerSG"
   description = "MyFirstSG"
-  Project = "3rd project"
+  Project     = "3rd project"
 
   ingress {
-    from_port        = 80
-    to_port          = 80
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
-    from_port        = 443
-    to_port          = 443
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {

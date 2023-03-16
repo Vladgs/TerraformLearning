@@ -11,24 +11,24 @@ data "aws_vpc" "prod_vpc" {
 }
 
 resource "aws_subnet" "prod_subnet_1" {
-  vpc_id = data.aws_vpc.prod_vpc.id
+  vpc_id            = data.aws_vpc.prod_vpc.id
   availability_zone = data.aws_availability_zones.working.names[0]
-  cidr_block = "10.10.1.0/24"
+  cidr_block        = "10.10.1.0/24"
   tags = {
-    Name = "Subnet_1 in ${data.aws_availability_zones.working.names[0]}"
+    Name    = "Subnet_1 in ${data.aws_availability_zones.working.names[0]}"
     Account = "Subent in account ${data.aws_caller_identity.current.account_id}"
-    Region = data.aws_region.current.description
+    Region  = data.aws_region.current.description
   }
 }
 
 resource "aws_subnet" "prod_subnet_2" {
-  vpc_id = data.aws_vpc.prod_vpc.id
+  vpc_id            = data.aws_vpc.prod_vpc.id
   availability_zone = data.aws_availability_zones.working.names[1]
-  cidr_block = "10.10.2.0/24"
+  cidr_block        = "10.10.2.0/24"
   tags = {
-    Name = "Subnet_2 in ${data.aws_availability_zones.working.names[1]}"
+    Name    = "Subnet_2 in ${data.aws_availability_zones.working.names[1]}"
     Account = "Subent in account ${data.aws_caller_identity.current.account_id}"
-    Region = data.aws_region.current.description
+    Region  = data.aws_region.current.description
   }
 }
 
@@ -49,7 +49,7 @@ output "data_aws_availability_zones" {
 }
 
 output "data_aws_caller_identity" {
-    value = data.aws_caller_identity.current.account_id
+  value = data.aws_caller_identity.current.account_id
 }
 
 output "data_aws_region_name" {

@@ -20,8 +20,8 @@ resource "aws_instance" "my_webserver" {
     Name  = "Server Web"
     Owner = "Vlad"
   }
-    depends_on = [
-      aws_instance.DB, aws_instance.my_app
+  depends_on = [
+    aws_instance.DB, aws_instance.my_app
   ]
 }
 
